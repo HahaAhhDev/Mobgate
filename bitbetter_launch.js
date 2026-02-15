@@ -1,0 +1,1 @@
+(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/gh/HahaAhhDev/Mobgate@main/Gui.js?'+Date.now();s.onerror=function(){alert('Failed to load. Check your connection.')};document.head.appendChild(s)})();
