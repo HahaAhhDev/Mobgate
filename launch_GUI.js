@@ -1,5 +1,5 @@
 // Mobgate Bookmarklet Launcher
-// This script loads the main GUI.js directly from GitHub (no caching delay)
+// Purges jsDelivr cache and loads latest GUI.js
 (function() {
     // Prevent multiple instances
     if (window.mobgateLoading) {
@@ -8,30 +8,36 @@
     }
     window.mobgateLoading = true;
 
-    var script = document.createElement('script');
-    var timestamp = Date.now();
-    var primary = 'https://raw.githubusercontent.com/HahaAhhDev/Mobgate/main/GUI.js?t=' + timestamp;
-    var fallback = 'https://cdn.jsdelivr.net/gh/HahaAhhDev/Mobgate@main/GUI.js?t=' + timestamp;
-    var triedFallback = false;
+    console.log('[Mobgate] Launcher started');
+
+    // Purge jsDelivr cache first
+    var purgeUrl = 'https://purge.jsdelivr.net/gh/HahaAhhDev/Mobgate@main/GUI.js';
+    console.log('[Mobgate] Purging cdn cache...');
     
-    script.src = primary;
+    fetch(purgeUrl, { method: 'GET' }).catch(function(e) {
+        console.warn('[Mobgate] Cache purge request failed (this is ok):', e);
+    }).then(function() {
+        // Now load the script
+        var script = document.createElement('script');
+        var timestamp = Date.now();
+        var url = 'https://cdn.jsdelivr.net/gh/HahaAhhDev/Mobgate@main/GUI.js?t=' + timestamp;
+        
+        script.src = url;
+        script.crossOrigin = 'anonymous';
+        
+        console.log('[Mobgate] Loading from:', url);
 
-    script.onerror = function() {
-        if (!triedFallback) {
-            console.warn('Primary load failed, trying CDN fallback...');
-            triedFallback = true;
-            script.src = fallback;
-            return;
-        }
-        window.mobgateLoading = false;
-        alert('❌ Failed to load Mobgate. Check your connection and try again.');
-        console.error('Mobgate failed to load from both sources');
-    };
+        script.onerror = function() {
+            console.error('[Mobgate] Load error:', this.src);
+            window.mobgateLoading = false;
+            alert('❌ Failed to load Mobgate. Check your connection and try again.');
+        };
 
-    script.onload = function() {
-        console.log('✅ Mobgate loaded successfully');
-        window.mobgateLoading = false;
-    };
+        script.onload = function() {
+            console.log('[Mobgate] Script loaded successfully');
+            window.mobgateLoading = false;
+        };
 
-    document.head.appendChild(script);
+        document.head.appendChild(script);
+    });
 })();
