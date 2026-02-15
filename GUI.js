@@ -320,7 +320,7 @@
         }
 
         .qg-input {
-            width: auto;
+            width: 100%;
             padding: 15px 20px;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(255, 255, 255, 0.3);
