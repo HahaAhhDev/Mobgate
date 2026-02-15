@@ -322,6 +322,7 @@
         .qg-input {
             width: 100%;
             padding: 15px 20px;
+               box-sizing: border-box;
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
