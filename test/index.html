@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobgate Bookmarklet Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #00D9FF;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+        }
+        .test-section {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #00D9FF;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #8B5CF6;
+            color: #fff;
+            transform: scale(1.05);
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Mobgate Bookmarklet Test Page</h1>
+
+    <div class="test-section">
+        <h2>Instructions</h2>
+        <p>Click the button below to inject the GUI.js bookmarklet:</p>
+        <button onclick="injectBookmarklet()">Inject Bookmarklet</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Information</h2>
+        <p><strong>Password:</strong> <code>boisotuff</code></p>
+        <p>Try logging in and clicking on different cards to test the interface.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>What to Test</h2>
+        <ul>
+            <li>✅ UI loads with neon cyan colors</li>
+            <li>✅ Password input shows readable placeholder text</li>
+            <li>✅ "Initialize Sequence" button is styled correctly</li>
+            <li>✅ Animations are smooth and not excessive</li>
+            <li>✅ Login with correct password</li>
+            <li>✅ Dashboard loads with card grid</li>
+            <li>✅ Cards respond to hover with glow effect</li>
+            <li>✅ Control buttons (collapse, fullscreen, close) work</li>
+            <li>✅ Font rendering looks modern</li>
+            <li>✅ Dark background with cyan accents throughout</li>
+        </ul>
+    </div>
+
+    <script>
+        function injectBookmarklet() {
+            fetch('../GUI.js')
+                .then(response => response.text())
+                .then(code => {
+                    eval(code);
+                    console.log('✅ Bookmarklet injected successfully!');
+                })
+                .catch(error => {
+                    console.error('Error loading bookmarklet:', error);
+                    alert('Error: Could not load bookmarklet. Check console.');
+                });
+        }
+
+        // Also show that we're ready
+        console.log('Test page loaded. Click "Inject Bookmarklet" to test.');
+    </script>
+</body>
+</html>

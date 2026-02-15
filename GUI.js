@@ -6,6 +6,47 @@
 
     const style = document.createElement('style');
     style.textContent = `
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+        :root {
+            --primary-cyan: #00D9FF;
+            --primary-purple: #8B5CF6;
+            --primary-pink: #FF006E;
+            --accent-green: #39FF14;
+            --accent-red: #FF4444;
+            --dark-bg: #0A0E27;
+            --light-text: #F5F5FF;
+            --text-secondary: #B0B0D9;
+
+            --font-ui: 'Space Grotesk', -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+            --font-accent: 'Orbitron', sans-serif;
+
+            --letter-tight: 0.5px;
+            --letter-normal: 1px;
+            --letter-wide: 2px;
+            --letter-ultra-wide: 3px;
+
+            --ease-out: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .qg-btn, .qg-card, .qg-input, .qg-submit {
+                transition: all 0.1s ease;
+            }
+
+            .qg-logo, .qg-container::before, .qg-scanline, .qg-particle {
+                animation: none !important;
+            }
+        }
+
         @keyframes qg-slideIn {
             0% {
                 transform: translateY(-100%) scale(0.8);
@@ -17,21 +58,12 @@
             }
         }
 
-        @keyframes qg-pulse {
-            0%, 100% {
-                transform: scale(1);
+        @keyframes qg-fadeIn {
+            0% {
+                opacity: 0;
             }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        @keyframes qg-glow {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.1);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), inset 0 0 30px rgba(255, 255, 255, 0.2);
+            100% {
+                opacity: 1;
             }
         }
 
@@ -46,10 +78,10 @@
 
         @keyframes qg-float {
             0%, 100% {
-                transform: translateY(0);
+                transform: translateY(0px);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-6px);
             }
         }
 
@@ -62,80 +94,12 @@
             }
         }
 
-        @keyframes qg-fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-
-        @keyframes qg-borderTrace {
-            0% {
-                clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-            }
-            25% {
-                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-            }
-            50% {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 100% 100%);
-            }
-            75% {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-            100% {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-        }
-
         @keyframes qg-scanline {
             0% {
                 transform: translateY(-100%);
             }
             100% {
                 transform: translateY(100vh);
-            }
-        }
-
-        @keyframes qg-glitch {
-            0%, 100% {
-                transform: translate(0);
-            }
-            20% {
-                transform: translate(-2px, 2px);
-            }
-            40% {
-                transform: translate(-2px, -2px);
-            }
-            60% {
-                transform: translate(2px, 2px);
-            }
-            80% {
-                transform: translate(2px, -2px);
-            }
-        }
-
-        @keyframes qg-shake {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            25% {
-                transform: translateX(-5px);
-            }
-            75% {
-                transform: translateX(5px);
-            }
-        }
-
-        @keyframes qg-expand {
-            0% {
-                transform: scale(0.95);
-                opacity: 0.8;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
             }
         }
 
@@ -156,6 +120,30 @@
             }
         }
 
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(0, 217, 255, 0.2),
+                            0 0 20px rgba(139, 92, 246, 0.15),
+                            inset 0 0 15px rgba(0, 217, 255, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(0, 217, 255, 0.5),
+                            0 0 40px rgba(139, 92, 246, 0.3),
+                            inset 0 0 25px rgba(0, 217, 255, 0.1);
+            }
+        }
+
+        @keyframes entry-scale-fade {
+            from {
+                opacity: 0;
+                transform: scale(0.92);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .qg-overlay {
             position: fixed;
             top: 0;
@@ -173,14 +161,14 @@
 
         .qg-container {
             position: relative;
-            width: 600px;
-            max-width: 90vw;
+            width: 700px;
+            max-width: 95vw;
             max-height: 90vh;
-            background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-            border: 2px solid #fff;
-            border-radius: 16px;
-            box-shadow: 0 0 60px rgba(255, 255, 255, 0.4), inset 0 0 40px rgba(255, 255, 255, 0.05);
-            animation: qg-slideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: linear-gradient(145deg, #0F1535, #050812);
+            border: 2px solid var(--primary-cyan);
+            border-radius: 18px;
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.2), 0 0 60px rgba(139, 92, 246, 0.1), inset 0 0 40px rgba(0, 217, 255, 0.02);
+            animation: qg-slideIn 0.5s var(--ease-out);
             overflow: hidden;
         }
 
@@ -191,33 +179,32 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, #fff, #888, #fff);
-            border-radius: 16px;
+            background: linear-gradient(45deg, var(--primary-cyan), var(--primary-purple), var(--primary-pink), var(--primary-cyan));
+            border-radius: 18px;
             z-index: -1;
             animation: qg-rotate 4s linear infinite;
-            opacity: 0.3;
+            opacity: 0.15;
         }
 
         .qg-header {
-            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-            border-bottom: 2px solid #fff;
-            padding: 15px 20px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(139, 92, 246, 0.05));
+            border-bottom: 2px solid var(--primary-cyan);
+            padding: 18px 24px;
             cursor: move;
             display: flex;
             justify-content: space-between;
             align-items: center;
             user-select: none;
-            animation: qg-shimmer 3s linear infinite;
-            background-size: 200% 100%;
+            box-shadow: 0 2px 20px rgba(0, 217, 255, 0.1);
         }
 
         .qg-title {
-            font: 700 18px/1 -apple-system, sans-serif;
-            color: #fff;
+            font: 700 18px/1 var(--font-ui);
+            color: var(--primary-cyan);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            animation: qg-pulse 2s ease-in-out infinite;
+            letter-spacing: var(--letter-wide);
+            text-shadow: 0 0 15px rgba(0, 217, 255, 0.6), 0 0 30px rgba(139, 92, 246, 0.3);
+            animation: none;
         }
 
         .qg-controls {
@@ -228,35 +215,48 @@
         .qg-btn {
             width: 28px;
             height: 28px;
-            border: 2px solid #fff;
-            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--primary-cyan);
+            background: rgba(0, 217, 255, 0.05);
             border-radius: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
+            color: var(--primary-cyan);
             font-size: 16px;
-            transition: all 0.3s ease;
-            animation: qg-float 3s ease-in-out infinite;
+            transition: all 0.25s var(--ease-smooth);
+            animation: gentle-float 4s ease-in-out infinite;
         }
 
+        .qg-btn:nth-child(1) { animation-delay: 0s; }
+        .qg-btn:nth-child(2) { animation-delay: 0.2s; }
+        .qg-btn:nth-child(3) { animation-delay: 0.4s; }
+
         .qg-btn:hover {
-            background: #fff;
-            color: #000;
+            background: var(--primary-cyan);
+            color: var(--dark-bg);
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.8), inset 0 0 10px rgba(0, 217, 255, 0.3);
         }
 
         .qg-btn:active {
             transform: scale(0.95);
         }
 
+        @keyframes gentle-float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
         .qg-content {
-            padding: 30px;
+            padding: 40px 35px;
             max-height: calc(90vh - 120px);
             overflow-y: auto;
-            animation: qg-fadeIn 0.8s ease-out 0.3s both;
+            animation: qg-fadeIn 0.7s ease-out 0.15s both;
         }
 
         .qg-content::-webkit-scrollbar {
@@ -264,98 +264,109 @@
         }
 
         .qg-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 217, 255, 0.05);
             border-radius: 4px;
         }
 
         .qg-content::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 217, 255, 0.3);
             border-radius: 4px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
 
         .qg-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(0, 217, 255, 0.5);
             background-clip: padding-box;
         }
 
         .qg-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            animation: qg-rotate 8s linear infinite, qg-glow 2s ease-in-out infinite;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            animation: qg-rotate 8s linear infinite, pulse-glow 2s ease-in-out infinite;
         }
 
         .qg-logo svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+            filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.6));
         }
 
         .qg-main-title {
-            font: 700 32px/1.2 -apple-system, sans-serif;
-            color: #fff;
+            font: 900 36px/1.1 var(--font-accent);
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple), var(--primary-pink));
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
-            letter-spacing: 6px;
-            margin-bottom: 8px;
+            letter-spacing: var(--letter-ultra-wide);
+            margin-bottom: 12px;
             text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            animation: qg-pulse 3s ease-in-out infinite;
+            animation: qg-shimmer 4s linear infinite;
         }
 
         .qg-subtitle {
-            font: 300 12px/1 -apple-system, sans-serif;
-            color: #ccc;
+            font: 400 14px/1.5 var(--font-ui);
+            color: var(--text-secondary);
             text-align: center;
-            letter-spacing: 3px;
-            margin-bottom: 30px;
+            letter-spacing: var(--letter-tight);
+            margin-bottom: 40px;
             text-transform: uppercase;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .qg-input-group {
-            margin-bottom: 20px;
-            animation: qg-expand 0.5s ease-out 0.5s both;
+            margin-bottom: 28px;
+            display: flex;
+            flex-direction: column;
+            animation: entry-scale-fade 0.4s ease-out 0.4s both;
         }
 
         .qg-input {
             width: 100%;
-            padding: 15px 20px;
-               box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            color: #fff;
-            font: 400 16px/1 -apple-system, sans-serif;
-            letter-spacing: 4px;
+            padding: 16px 20px;
+            box-sizing: border-box;
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 10px;
+            color: var(--primary-cyan);
+            font: 500 14px/1.4 var(--font-mono);
+            letter-spacing: var(--letter-normal);
             text-align: center;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s var(--ease-smooth);
+            backdrop-filter: blur(10px);
+        }
+
+        .qg-input::placeholder {
+            color: rgba(0, 217, 255, 0.4);
+            opacity: 0.6;
         }
 
         .qg-input:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #fff;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-            animation: qg-glow 1.5s ease-in-out infinite;
+            background: rgba(0, 217, 255, 0.08);
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.4), inset 0 0 15px rgba(0, 217, 255, 0.05);
+            animation: pulse-glow 1.2s ease-in-out infinite;
         }
 
         .qg-submit {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
-            border: 2px solid #fff;
-            border-radius: 8px;
-            color: #fff;
-            font: 700 14px/1 -apple-system, sans-serif;
-            letter-spacing: 3px;
+            padding: 16px;
+            background: rgba(0, 217, 255, 0.08);
+            border: 2px solid var(--primary-cyan);
+            border-radius: 10px;
+            color: var(--primary-cyan);
+            font: 700 13px/1 var(--font-mono);
+            letter-spacing: var(--letter-normal);
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s var(--ease-smooth);
             position: relative;
             overflow: hidden;
-            animation: qg-expand 0.5s ease-out 0.7s both;
+            animation: entry-scale-fade 0.4s ease-out 0.6s both;
         }
 
         .qg-submit::before {
@@ -365,15 +376,15 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 217, 255, 0.2);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
 
         .qg-submit:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+            background: rgba(0, 217, 255, 0.12);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.5), 0 0 15px rgba(139, 92, 246, 0.2);
             transform: translateY(-2px);
         }
 
@@ -385,9 +396,9 @@
         .qg-status {
             text-align: center;
             margin-top: 15px;
-            font: 400 12px/1 -apple-system, sans-serif;
-            color: #ccc;
-            letter-spacing: 2px;
+            font: 400 12px/1.4 var(--font-mono);
+            color: var(--text-secondary);
+            letter-spacing: var(--letter-tight);
             min-height: 20px;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -395,7 +406,9 @@
 
         .qg-status.show {
             opacity: 1;
-            animation: qg-pulse 1s ease-in-out infinite;
+            animation: pulse-glow 0.8s ease-in-out infinite;
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
         }
 
         .qg-dashboard {
@@ -409,39 +422,43 @@
         }
 
         .qg-dashboard-title {
-            font: 700 28px/1.2 -apple-system, sans-serif;
-            color: #fff;
-            text-align: center;
-            letter-spacing: 5px;
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            animation: qg-shimmer 3s linear infinite;
-            background: linear-gradient(90deg, #fff, #888, #fff);
-            background-size: 200% 100%;
+            font: 700 28px/1.2 var(--font-ui);
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple), var(--primary-pink), var(--primary-blue), var(--primary-cyan));
+            background-size: 300% 100%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-align: center;
+            letter-spacing: var(--letter-wide);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            text-shadow: none;
+            animation: qg-shimmer 4s linear infinite;
         }
 
         .qg-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+            padding: 0 10px;
         }
 
         .qg-card {
-            padding: 25px 20px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
+            padding: 32px 28px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(145deg, rgba(0, 217, 255, 0.08), rgba(139, 92, 246, 0.04));
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: 14px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.4s var(--ease-smooth);
             position: relative;
             overflow: hidden;
-            animation: qg-expand 0.5s ease-out calc(var(--delay) * 0.1s) both;
+            animation: entry-scale-fade 0.5s ease-out both;
         }
 
         .qg-card::before {
@@ -451,7 +468,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.15), transparent);
             transition: left 0.5s ease;
         }
 
@@ -460,25 +477,25 @@
         }
 
         .qg-card:hover {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
-            border-color: #fff;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.4);
-            animation: qg-glow 1s ease-in-out infinite;
+            background: linear-gradient(145deg, rgba(0, 217, 255, 0.12), rgba(139, 92, 246, 0.08));
+            border-color: var(--primary-cyan);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3), 0 0 40px rgba(139, 92, 246, 0.15), inset 0 0 20px rgba(0, 217, 255, 0.05);
         }
 
         .qg-card h3 {
-            font: 600 18px/1 -apple-system, sans-serif;
-            color: #fff;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
+            font: 700 20px/1.2 var(--font-ui);
+            color: var(--primary-cyan);
+            letter-spacing: var(--letter-normal);
+            margin-bottom: 12px;
             text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
         }
 
         .qg-card p {
-            font: 400 11px/1.4 -apple-system, sans-serif;
-            color: #aaa;
-            letter-spacing: 1px;
+            font: 400 13px/1.6 var(--font-ui);
+            color: var(--text-secondary);
+            letter-spacing: var(--letter-tight);
         }
 
         .qg-particles {
@@ -496,9 +513,9 @@
             position: absolute;
             width: 3px;
             height: 3px;
-            background: #fff;
+            background: var(--primary-cyan);
             border-radius: 50%;
-            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 6px rgba(0, 217, 255, 0.6);
             animation: qg-particle 4s linear infinite;
         }
 
@@ -508,7 +525,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.3), transparent);
             animation: qg-scanline 3s linear infinite;
             pointer-events: none;
             z-index: 2;
@@ -528,69 +545,124 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000;
+            background: var(--dark-bg);
             z-index: 1000000;
             display: none;
             animation: qg-fadeIn 0.3s ease-out;
         }
 
         .qg-iframe-container.active {
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
 
         .qg-iframe-header {
-            background: #000;
-            border-bottom: 2px solid #fff;
-            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(139, 92, 246, 0.05));
+            border-bottom: 2px solid var(--primary-cyan);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 20px rgba(0, 217, 255, 0.15);
         }
 
         .qg-iframe-url {
             flex: 1;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 6px;
-            color: #fff;
-            font: 400 13px/1 monospace;
-            margin-right: 10px;
+            padding: 10px 16px;
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            border-radius: 8px;
+            color: var(--primary-cyan);
+            font: 400 12px/1 var(--font-mono);
+            margin: 0;
             outline: none;
+            transition: all 0.3s var(--ease-smooth);
+            max-width: 400px;
         }
 
         .qg-iframe-url:focus {
-            border-color: #fff;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.4), inset 0 0 10px rgba(0, 217, 255, 0.05);
+            background: rgba(0, 217, 255, 0.08);
+        }
+
+        .qg-iframe-url.hidden {
+            display: none;
+        }
+
+        .qg-iframe-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .qg-iframe-btn {
+            padding: 10px 14px;
+            background: rgba(0, 217, 255, 0.08);
+            border: 2px solid var(--primary-cyan);
+            border-radius: 8px;
+            color: var(--primary-cyan);
+            font: 600 11px/1 var(--font-ui);
+            letter-spacing: var(--letter-tight);
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-smooth);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .qg-iframe-btn:hover {
+            background: var(--primary-cyan);
+            color: var(--dark-bg);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .qg-iframe-btn:active {
+            transform: scale(0.95);
         }
 
         .qg-iframe-close {
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #fff;
-            border-radius: 6px;
-            color: #fff;
-            font: 600 12px/1 -apple-system, sans-serif;
-            letter-spacing: 2px;
+            padding: 10px 14px;
+            background: rgba(255, 68, 68, 0.08);
+            border: 2px solid var(--accent-red);
+            border-radius: 8px;
+            color: var(--accent-red);
+            font: 600 11px/1 var(--font-ui);
+            letter-spacing: var(--letter-tight);
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s var(--ease-smooth);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .qg-iframe-close:hover {
-            background: #fff;
-            color: #000;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            background: var(--accent-red);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 68, 68, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .qg-iframe-close:active {
+            transform: scale(0.95);
         }
 
         .qg-iframe {
+            flex: 1;
             width: 100%;
-            height: calc(100% - 50px);
             border: none;
         }
 
         .qg-error {
-            animation: qg-shake 0.5s ease-in-out;
+            animation: none;
+        }
+
+        @media(max-width: 900px) {
+            .qg-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media(max-width: 768px) {
@@ -601,8 +673,12 @@
                 grid-template-columns: 1fr;
             }
             .qg-main-title {
-                font-size: 24px;
-                letter-spacing: 4px;
+                font-size: 28px;
+                letter-spacing: var(--letter-wide);
+            }
+            .qg-card {
+                padding: 24px 20px;
+                min-height: auto;
             }
         }
     `;
@@ -632,11 +708,11 @@
             <div class="qg-scanline"></div>
             <div class="qg-particles"></div>
             <div class="qg-header">
-                <div class="qg-title">⚡ MOBASHIR GATE</div>
+                <div class="qg-title">&#9889; MOBASHIR GATE</div>
                 <div class="qg-controls">
-                    <div class="qg-btn" data-action="fullscreen" title="Fullscreen">⛶</div>
-                    <div class="qg-btn" data-action="collapse" title="Collapse">−</div>
-                    <div class="qg-btn" data-action="close" title="Close">×</div>
+                    <div class="qg-btn" data-action="fullscreen" title="Fullscreen">&#10230;</div>
+                    <div class="qg-btn" data-action="collapse" title="Collapse">&#8722;</div>
+                    <div class="qg-btn" data-action="close" title="Close">&#215;</div>
                 </div>
             </div>
             <div class="qg-content">
@@ -653,7 +729,7 @@
                     <h1 class="qg-main-title">MOBASHIR GATE</h1>
                     <p class="qg-subtitle">Enter Access Credentials</p>
                     <div class="qg-input-group">
-                        <input type="password" class="qg-input" id="qg-pass" placeholder="• • • • • • • •" autocomplete="off">
+                        <input type="password" class="qg-input" id="qg-pass" placeholder="&#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226; &#8226;" autocomplete="off">
                     </div>
                     <button class="qg-submit" id="qg-unlock">Initialize Sequence</button>
                     <div class="qg-status" id="qg-status"></div>
@@ -701,7 +777,10 @@
     iframeContainer.innerHTML = `
         <div class="qg-iframe-header">
             <input type="text" class="qg-iframe-url" placeholder="URL loaded..." readonly>
-            <button class="qg-iframe-close">Close [ESC]</button>
+            <div class="qg-iframe-controls">
+                <button class="qg-iframe-btn" id="qg-toggle-url" title="Toggle URL">URL</button>
+                <button class="qg-iframe-close">Close [ESC]</button>
+            </div>
         </div>
         <iframe class="qg-iframe"></iframe>
     `;
@@ -843,6 +922,14 @@
     iframeContainer.querySelector('.qg-iframe-close').addEventListener('click', () => {
         iframeContainer.classList.remove('active');
         iframeContainer.querySelector('.qg-iframe').src = '';
+    });
+
+    // Iframe URL toggle button
+    iframeContainer.querySelector('#qg-toggle-url').addEventListener('click', () => {
+        const urlInput = iframeContainer.querySelector('.qg-iframe-url');
+        urlInput.classList.toggle('hidden');
+        const btn = iframeContainer.querySelector('#qg-toggle-url');
+        btn.textContent = urlInput.classList.contains('hidden') ? 'Show URL' : 'Hide URL';
     });
 
     // Keyboard shortcuts
