@@ -1,5 +1,5 @@
 // Mobgate Bookmarklet Launcher
-// This script loads the main GUI.js from jsDelivr CDN
+// This script loads the main GUI.js directly from GitHub (no caching delay)
 (function() {
     // Prevent multiple instances
     if (window.mobgateLoading) {
@@ -9,12 +9,23 @@
     window.mobgateLoading = true;
 
     var script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/HahaAhhDev/Mobgate@main/GUI.js?ts=' + Date.now();
+    var timestamp = Date.now();
+    var primary = 'https://raw.githubusercontent.com/HahaAhhDev/Mobgate/main/GUI.js?t=' + timestamp;
+    var fallback = 'https://cdn.jsdelivr.net/gh/HahaAhhDev/Mobgate@main/GUI.js?t=' + timestamp;
+    var triedFallback = false;
+    
+    script.src = primary;
 
     script.onerror = function() {
+        if (!triedFallback) {
+            console.warn('Primary load failed, trying CDN fallback...');
+            triedFallback = true;
+            script.src = fallback;
+            return;
+        }
         window.mobgateLoading = false;
         alert('❌ Failed to load Mobgate. Check your connection and try again.');
-        console.error('Mobgate failed to load from CDN');
+        console.error('Mobgate failed to load from both sources');
     };
 
     script.onload = function() {
